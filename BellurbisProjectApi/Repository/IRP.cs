@@ -8,21 +8,22 @@ namespace BellurbisProjectApi.Repository
 {
     public interface IRP
     {
-        // Interface for Restaurant 
+       
         List<RestaurantModel> Index();
-        bool Create(RestaurantModel emp);
-        RestaurantModel Edit(int id);
-        bool Delete(int id);
-
-
-        // Interface for player
         List<PlayerModel> PlayerIndex();
+
+        bool Create(RestaurantModel emp);
         bool PlayerCreate(PlayerModel mac);
+
+        RestaurantModel Edit(int id);
         PlayerModel PlayerEdit(int id);
+
+        bool Delete(int id);
         bool PlayerDelete(int id);
 
-       
-       
+
+
+
         FavRestraurantPlayer FvtplyRest(string name, bool status = true);
         List<RestaurantModel> ResturantByName(string name);
         List<PlayerModel> PlayerByName(string name);
@@ -71,7 +72,7 @@ namespace BellurbisProjectApi.Repository
             dbcontext = _dbContxet;
         }
 
-        
+
         // For Restaurant
         public override bool Create(RestaurantModel emp)
         {
@@ -200,7 +201,7 @@ namespace BellurbisProjectApi.Repository
                        {
                            player = player,
                            restaurent = restaurent,
-                           Fav = Fav
+                           //Fav = /*Fav*/
                        }).ToList();
 
             foreach (var item in res)
@@ -209,7 +210,7 @@ namespace BellurbisProjectApi.Repository
 
                 obj.player = item.player;
                 obj.restaurent = item.restaurent;
-                obj.Fav = item.Fav;
+                //obj.Fav = item.Fav;
                 allplayer.Add(obj);
             }
             return allplayer;
@@ -242,8 +243,8 @@ namespace BellurbisProjectApi.Repository
                                      Name = res.Name
                                  }).ToList();
 
-                lt.player = playerDetail;
-                lt.restaurent = resDetail;
+                //lt.player = playerDetail;
+                //lt.restaurent = resDetail;
             }
             return lt;
 

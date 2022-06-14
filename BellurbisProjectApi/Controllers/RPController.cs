@@ -33,7 +33,7 @@ namespace BellurbisProjectApi.Controllers
         [HttpPost]
         public IActionResult Create(RestaurantModel emp)
         {
-            var a = FirstRepo.Create(emp);
+            bool a = FirstRepo.Create(emp);
             return Ok(a);
         }
 
@@ -88,7 +88,7 @@ namespace BellurbisProjectApi.Controllers
             return (FirstRepo.PlayerByName(name));
         }
         [HttpGet("{name}")]
-        public FavRestraurantPlayer favplyRes(string name)
+        public FavRestraurantPlayer FvtplyRest(string name)
         {
             var statuss = true;
             return (FirstRepo.FvtplyRest(name, statuss));

@@ -4,7 +4,7 @@
 
 namespace BellurbisProjectApi.Migrations
 {
-    public partial class init : Migration
+    public partial class ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,8 +58,9 @@ namespace BellurbisProjectApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RestaurantId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PlayerId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
+                    Fav = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

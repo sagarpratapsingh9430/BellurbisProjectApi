@@ -6,8 +6,8 @@ namespace BellurbisProjectApi.Models
     {
         [Key]
         public int Id { get; set; }
-        public int ?RestaurantId { get; set; }
-        public int ?PlayerId { get; set; }
+        public int RestaurantId { get; set; }
+        public int PlayerId { get; set; }
         public bool Fav { get; set; }
 
     }
