@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellurbisProjectApi", "BellurbisProjectApi\BellurbisProjectApi.csproj", "{A7F55682-689C-4DC6-85E2-3E9A243F747E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellurbisProjectApi", "BellurbisProjectApi\BellurbisProjectApi.csproj", "{A7F55682-689C-4DC6-85E2-3E9A243F747E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EC1D588-9375-4918-9783-7AF7BD59778C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

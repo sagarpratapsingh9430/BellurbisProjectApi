@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BellurbisProjectApi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220614104913_ini")]
-    partial class ini
+    [Migration("20220618071739_inita")]
+    partial class inita
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

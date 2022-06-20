@@ -11,6 +11,6 @@ namespace BellurbisProjectApi.Models
 
         public DbSet<RestaurantModel> RestaurantTab { get; set; }
         public DbSet<RestroPlayerLinkModel> RPLinkTab { get; set; }
-        
+
     }
 }

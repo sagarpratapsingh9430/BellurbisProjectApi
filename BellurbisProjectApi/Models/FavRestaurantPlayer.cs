@@ -20,8 +20,14 @@
     public class PlayersFavRestroList
 
     {
-        public List<PlayerModel> player { get; set; }
-        public List<RestaurantModel> restaurent { get; set; }
+        internal List<PlayerModel> player;
+        internal List<RestaurantModel> restaurent;
+        internal RestaurantModel rest;
+
+        public PlayerModel Player { get; set; }
+        public List<PlayerModel> players { get; set; }
+        public List<RestaurantModel> restaurents { get; set; }
+        public RestaurantModel Restaurant { get; set; }
 
     }
 }

@@ -1,30 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BellurbisProjectApi.Models;
-using Microsoft.EntityFrameworkCore;
 using BellurbisProjectApi.Repository;
 
 namespace BellurbisProjectApi.Controllers
-{
-
+{ 
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class RPController : Controller
 
     {
-        private RPRepository FirstRepo;
-
+        //private RPRepository FirstRepo;
+        private readonly RPRepository FirstRepo = null;
         public RPController(RPRepository _FirstRepo)
         {
             FirstRepo = _FirstRepo;
         }
-        [HttpGet]
+       
         public IActionResult Index()
         {
             var a = FirstRepo.Index();
             return Ok(a);
         }
 
-        [HttpGet]
         public IActionResult PlayerIndex()
         {
             var a = FirstRepo.PlayerIndex();
@@ -33,7 +30,7 @@ namespace BellurbisProjectApi.Controllers
         [HttpPost]
         public IActionResult Create(RestaurantModel emp)
         {
-            bool a = FirstRepo.Create(emp);
+            var a = FirstRepo.Create(emp);
             return Ok(a);
         }
 
@@ -47,31 +44,35 @@ namespace BellurbisProjectApi.Controllers
         [HttpGet("{id}")]
         public IActionResult Edit(int id)
         {
-            var a = FirstRepo.Edit(id);
-            return Ok(a);
+             
+            return Ok(FirstRepo.Edit(id));
         }
 
 
         [HttpGet("{id}")]
         public IActionResult PlayerEdit(int id)
         {
-            var a = FirstRepo.PlayerEdit(id);
-            return Ok(a);
+           
+            return Ok(FirstRepo.PlayerEdit(id));
         }
-        [HttpDelete("{id}")]
+        [HttpGet("{id}")]
         public IActionResult Delete(int id)
         {
-            FirstRepo.Delete(id);
-            return Ok();
+            
+            return Ok(FirstRepo.Delete(id));
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("{id}")]
         public IActionResult PlayerDelete(int id)
         {
-            FirstRepo.PlayerDelete(id);
-            return Ok();
+           
+            return Ok(FirstRepo.PlayerDelete(id));
         }
-
+        [HttpGet]
+        public IActionResult PlayersFavRestroIndex()
+        {
+            return Ok(FirstRepo.Index());
+        }
         public IActionResult Getall()
         {
             return Ok(FirstRepo.getall());
@@ -87,11 +88,23 @@ namespace BellurbisProjectApi.Controllers
         {
             return (FirstRepo.PlayerByName(name));
         }
+
         [HttpGet("{name}")]
-        public FavRestraurantPlayer FvtplyRest(string name)
+        public PlayersFavRestroList FvtplyRest(string name)
         {
+            
             var statuss = true;
             return (FirstRepo.FvtplyRest(name, statuss));
+
+
         }
+
+        [HttpGet("{Name}")]
+        public IActionResult GetbyAge(string Name, int Age)
+        {
+            var result = FirstRepo.GetbyAge(Name, Age);
+            return Ok(result);
+        }
+
     }
 }

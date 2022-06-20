@@ -8,58 +8,58 @@ namespace BellurbisProjectApi.Repository
 {
     public interface IRP
     {
+
+        PlayersFavRestroList FvtplyRest(string name, bool status = true);//1
+        List<RestaurantModel> ResturantByName(string name);              //2
+        List<PlayerModel> PlayerByName(string name);                     //3
+
+        List<FavRestraurantPlayer> getall();                             //4
+
+        List<RestaurantModel> Index();                                   //5
+        List<PlayerModel> PlayerIndex();                                 //6
+
+        bool Create(RestaurantModel emp);                                //7
+        bool PlayerCreate(PlayerModel mac);                              //8
+
+        RestaurantModel Edit(int id);                                    //9
+        PlayerModel PlayerEdit(int id);                                  //10
+
+        bool Delete(int id);                                             //11
+        bool PlayerDelete(int id);                                       //12
+        PlayersFavRestroList GetbyAge(string Name, int age);             //13
        
-        List<RestaurantModel> Index();
-        List<PlayerModel> PlayerIndex();
-
-        bool Create(RestaurantModel emp);
-        bool PlayerCreate(PlayerModel mac);
-
-        RestaurantModel Edit(int id);
-        PlayerModel PlayerEdit(int id);
-
-        bool Delete(int id);
-        bool PlayerDelete(int id);
-
-
-
-
-        FavRestraurantPlayer FvtplyRest(string name, bool status = true);
-        List<RestaurantModel> ResturantByName(string name);
-        List<PlayerModel> PlayerByName(string name);
-
-        List<FavRestraurantPlayer> getall();
-
-        bool RestroPlayerLink(RestroPlayerLinkModel Obj);
-
-
+        // PlayersFavRestroList FvtplyRest(string name);                 //14
+        // List<string> FvtplyRes(string name, bool status = true);
     }
     public abstract class RP : IRP
     {
-        public abstract List<RestaurantModel> Index();
-        public abstract bool Create(RestaurantModel emp);
-        public abstract RestaurantModel Edit(int id);
-        public abstract bool Delete(int id);
+        public abstract PlayersFavRestroList FvtplyRest(string name, bool status = true);//1
 
-        public abstract List<PlayerModel> PlayerIndex();
-        public abstract bool PlayerCreate(PlayerModel mac);
-        public abstract PlayerModel PlayerEdit(int id);
-        public abstract bool PlayerDelete(int id);
-
-        public abstract FavRestraurantPlayer FvtplyRest(string name, bool status = true);
+        public abstract List<RestaurantModel> ResturantByName(string name);//2
+        public abstract List<PlayerModel> PlayerByName(string name);         //3
+        public abstract List<FavRestraurantPlayer> getall();              //4
 
 
-        public abstract List<RestaurantModel> ResturantByName(string name);
-
-        public abstract List<PlayerModel> PlayerByName(string name);
-
+        public abstract List<RestaurantModel> Index();                   //5 
+        public abstract List<PlayerModel> PlayerIndex();                 //6  
 
 
-        public abstract List<FavRestraurantPlayer> getall();
+        public abstract bool Create(RestaurantModel emp);                //7  
+        public abstract bool PlayerCreate(PlayerModel mac);               //8  
 
-        
-        public abstract bool  RestroPlayerLink(RestroPlayerLinkModel Obj);
 
+        public abstract RestaurantModel Edit(int id);                     //9
+        public abstract PlayerModel PlayerEdit(int id);                   //10 
+
+
+        public abstract bool Delete(int id);                             //11  
+        public abstract bool PlayerDelete(int id);                        //12 
+
+        public abstract PlayersFavRestroList GetbyAge(string Name, int age);//13
+
+        // public abstract FavRestraurantPlayer FvtplyRest(string name);      //14 
+
+        //public abstract List<string> FvtplyRes(string name, bool status = true);//15
 
 
     }
@@ -72,9 +72,55 @@ namespace BellurbisProjectApi.Repository
             dbcontext = _dbContxet;
         }
 
+        public override PlayersFavRestroList FvtplyRest(string name, bool statuss)//1
+        {
+            PlayersFavRestroList lt = new PlayersFavRestroList();
 
-        // For Restaurant
-        public override bool Create(RestaurantModel emp)
+            var playerDetail = dbcontext.PlayerTab.Where(x => x.Name == name).ToList();
+            if (playerDetail != null)
+            {
+                var playerID = playerDetail.FirstOrDefault().PlayerId;
+
+                var resDetail = (from map in dbcontext.RPLinkTab
+                                 join res in dbcontext.RestaurantTab
+                                 on map.RestaurantId equals res.RestaurantId
+                                 where map.PlayerId == playerID
+                                 select new RestaurantModel
+                                 {
+                                     RestaurantId = map.RestaurantId,
+                                     Name = res.Name
+                                 }).ToList();
+
+                lt.player = playerDetail;
+                lt.restaurent = resDetail;
+            }
+            return lt;
+
+        }
+        public override List<RestaurantModel> ResturantByName(string name)      //2
+        {
+            var obj = dbcontext.RestaurantTab.Where(Models => Models.Name == name).ToList();
+            return obj;
+        }
+
+        public override List<PlayerModel> PlayerByName(string name)             //3
+        {
+            var obj1 = dbcontext.PlayerTab.Where(Models => Models.Name == name).ToList();
+            return obj1;
+        }
+
+
+        public override List<RestaurantModel> Index()                           //4
+        {
+            return dbcontext.RestaurantTab.ToList();
+        }
+
+        public override List<PlayerModel> PlayerIndex()                         //5
+        {
+            return dbcontext.PlayerTab.ToList();
+        }
+
+        public override bool Create(RestaurantModel emp)                        //6
         {
             if (emp == null)
             {
@@ -98,8 +144,8 @@ namespace BellurbisProjectApi.Repository
         }
 
 
-        // For Player
-        public override bool PlayerCreate(PlayerModel mac)
+      
+        public override bool PlayerCreate(PlayerModel mac)                           //7
         {
             if (mac == null)
             {
@@ -123,17 +169,18 @@ namespace BellurbisProjectApi.Repository
         }
 
 
-        // For Reasurant
-        public override List<RestaurantModel> Index()
-        {
-            return dbcontext.RestaurantTab.ToList();
-        }
-        public override RestaurantModel Edit(int id)
+        public override RestaurantModel Edit(int id)                //8
         {
             var a = dbcontext.RestaurantTab.Find(id);
             return a;
         }
-        public override bool Delete(int id)
+
+        public override PlayerModel PlayerEdit(int id)              //9
+        {
+            var a = dbcontext.PlayerTab.Find(id);
+            return a;
+        }
+        public override bool Delete(int id)                         //10
         {
             var a = dbcontext.RestaurantTab.Find(id);
             if (a == null)
@@ -148,47 +195,28 @@ namespace BellurbisProjectApi.Repository
             }
         }
 
-
-        // For Player
-        public override List<PlayerModel> PlayerIndex()
-        {
-            return dbcontext.PlayerTab.ToList();
-        }
-        public override PlayerModel PlayerEdit(int id)
-        {
-            var a = dbcontext.PlayerTab.Find(id);
-            return a;
-        }
-        public override bool PlayerDelete(int id)
-        {
-            var a = dbcontext.PlayerTab.Find(id);
-            if (a == null)
-            {
-                return false;
-            }
-            else
-            {
-                dbcontext.Remove(a);
-                dbcontext.SaveChanges();
-                return true;
-            }
-        }
 
        
-
-        public override List<RestaurantModel> ResturantByName(string name)
+      
+        public override bool PlayerDelete(int id)                     //11
         {
-            var obj = dbcontext.RestaurantTab.Where(Models => Models.Name == name).ToList();
-            return obj;
+            var a = dbcontext.PlayerTab.Find(id);
+            if (a == null)
+            {
+                return false;
+            }
+            else
+            {
+                dbcontext.Remove(a);
+                dbcontext.SaveChanges();
+                return true;
+            }
         }
 
-        public override List<PlayerModel> PlayerByName(string name)
-        {
-            var obj1 = dbcontext.PlayerTab.Where(Models => Models.Name == name).ToList();
-            return obj1;
-        }
 
-        public override List<FavRestraurantPlayer> getall()
+
+       
+        public override List<FavRestraurantPlayer> getall()                 //12
         {
             List<FavRestraurantPlayer> allplayer = new List<FavRestraurantPlayer>();
             var res = (from player in dbcontext.PlayerTab
@@ -216,40 +244,68 @@ namespace BellurbisProjectApi.Repository
             return allplayer;
         }
 
-        public override bool RestroPlayerLink(RestroPlayerLinkModel Obj)
+      
+        public override PlayersFavRestroList GetbyAge(string Name, int age)   //13
         {
+            PlayersFavRestroList lst = new PlayersFavRestroList();
+            var RestaurantCollection = dbcontext.RestaurantTab.FirstOrDefault(x => x.Name == Name);
+            List<PlayerModel> pares = new List<PlayerModel>();
+            List<PlayerModel> set = new List<PlayerModel>();
 
-            return true;
-
-        }
-
-       
-        public override FavRestraurantPlayer FvtplyRest(string name, bool status = true)
-        {
-            FavRestraurantPlayer lt = new FavRestraurantPlayer();
-
-            var playerDetail = dbcontext.PlayerTab.Where(x => x.Name == name).ToList();
-            if (playerDetail != null)
+            if (RestaurantCollection != null)
             {
-                var playerID = playerDetail.FirstOrDefault().PlayerId;
+                var restaurentId = RestaurantCollection.RestaurantId;
 
-                var resDetail = (from map in dbcontext.RPLinkTab
-                                 join res in dbcontext.RestaurantTab
-                                 on map.RestaurantId equals res.RestaurantId
-                                 where map.PlayerId == playerID
-                                 select new RestaurantModel
-                                 {
-                                     RestaurantId = map.RestaurantId,
-                                     Name = res.Name
-                                 }).ToList();
+                var LinkDetail = dbcontext.RPLinkTab.Where(x => x.RestaurantId == restaurentId).ToList();
+                foreach (var item in LinkDetail)
+                {
 
-                //lt.player = playerDetail;
-                //lt.restaurent = resDetail;
+                    var abc = dbcontext.PlayerTab.Where(x => x.PlayerId == item.PlayerId).FirstOrDefault();
+                    set.Add(abc);
+
+                }
+
+                foreach (var item in set)
+                {
+
+                    var years = DateTime.Now.Year - Convert.ToDateTime(item.DOB).Year;
+
+                    if (years >= age)
+                    {
+                        pares.Add(item);
+                    }
+
+                    years = 0;
+                }
+                List<FavRestraurantPlayer> res = new List<FavRestraurantPlayer>();
+                var areas = (from player in dbcontext.PlayerTab
+                             from restaurent in dbcontext.RestaurantTab
+                             from Fav in dbcontext.RPLinkTab
+                             where player.PlayerId == Fav.PlayerId
+                             && restaurent.RestaurantId == Fav.RestaurantId
+                             select new
+                             {
+                                 player = player,
+                                 restaurent = restaurent,
+                                 Fav = Fav
+                             }).ToList();
+                foreach (var item in areas)
+                {
+                    FavRestraurantPlayer obj1 = new FavRestraurantPlayer();
+
+                    obj1.player = item.player;
+                    obj1.restaurent = item.restaurent;
+                    obj1.Fav = item.Fav;
+                    res.Add(obj1);
+                }
+
+
+                lst.rest = RestaurantCollection;
+                lst.player = pares;
             }
-            return lt;
 
+            return lst;
         }
 
     }
 }
-

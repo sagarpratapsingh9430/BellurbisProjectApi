@@ -4,7 +4,7 @@
 
 namespace BellurbisProjectApi.Migrations
 {
-    public partial class ini : Migration
+    public partial class inita : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
